@@ -10,7 +10,11 @@ import controller.Cashbox;
 import controller.FrontPanel;
 import controller.Mixer;
 import exceptions.FlavorNotAvailableException;
+import exceptions.NoCreamerException;
+import exceptions.NoCupException;
 import exceptions.NoSelectedFlavorException;
+import exceptions.NoSugarException;
+import exceptions.NoWaterExcpetion;
 import exceptions.NotEnoughMoneyException;
 
 public class CoffeeMachineTest {
@@ -54,7 +58,7 @@ public class CoffeeMachineTest {
 	}
 	
 	@Test
-	public void serveWithNotEnoughMoneyTest() throws FlavorNotAvailableException, NoSelectedFlavorException {
+	public void serveWithNotEnoughMoneyTest() throws FlavorNotAvailableException, NoSelectedFlavorException, NoCupException, NoSugarException, NoWaterExcpetion, NoCreamerException {
 		try {
 			fp.select("hot choco");
 			c.insert(5);
@@ -65,29 +69,34 @@ public class CoffeeMachineTest {
 		}
 	}
 	
-	/*
 	@Test
-	public void serveWithoutSelectingFlavorTest() throws NotEnoughMoneyException {
+	public void serveWithoutSelectingFlavorTest() throws NotEnoughMoneyException, NoCupException, NoSugarException, NoWaterExcpetion, NoCreamerException {
 		try {
 			fp.serve();
 			fail("Not yet selected any flavor and must fail");
 		} catch(NoSelectedFlavorException e) {
-			
+			assertEquals("Please select a flavor", e.getMessage());
 		}
 	}
-	*/
 	
 	@Test
-	public void serteWithEnoughMoney() throws FlavorNotAvailableException, NotEnoughMoneyException {
+	public void serveWithEnoughMoney() throws FlavorNotAvailableException, NotEnoughMoneyException, NoSelectedFlavorException, NoCupException, NoSugarException, NoWaterExcpetion, NoCreamerException {
 		fp.select("coffee");
 		c.insert(40);
 		fp.serve();
 		assertEquals(5, c.getCredit());
+		assertEquals("", fp.getSelected());
+		assertEquals(0, fp.getPrice());
 	}
 	
 	@After
 	public void cleanCashbox() {
 		c.change();
 		assertEquals(0, c.getCredit());
+	}
+	
+	@After
+	public void resetFrontPanel() {
+		fp.reset();
 	}
 }

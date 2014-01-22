@@ -4,7 +4,11 @@ import java.security.KeyException;
 import java.util.HashMap;
 
 import exceptions.FlavorNotAvailableException;
+import exceptions.NoCreamerException;
+import exceptions.NoCupException;
 import exceptions.NoSelectedFlavorException;
+import exceptions.NoSugarException;
+import exceptions.NoWaterExcpetion;
 import exceptions.NotEnoughMoneyException;
 
 public class FrontPanel {
@@ -12,6 +16,7 @@ public class FrontPanel {
 	private HashMap<String, Integer> menu = new HashMap<String, Integer> ();
 	private String selected;
 	private int price;
+	private boolean addSugar, addCreamer;
 	private Cashbox cashbox;
 	private Mixer mixer;
 	
@@ -22,6 +27,7 @@ public class FrontPanel {
 		menu.put("coffee", new Integer(35));
 		selected = "";
 		price = 0;
+		addSugar = addCreamer = false;
 	}
 	
 	/**
@@ -82,16 +88,31 @@ public class FrontPanel {
 		
 	}
 	
-	public void serve() throws NotEnoughMoneyException {
+	public void checkAddSugar() {
+		addSugar = true;
+	}
+	
+	public void checkAddCreamer() {
+		addCreamer = true;
+	}
+	
+	public void serve() throws NotEnoughMoneyException, NoSelectedFlavorException, NoCupException, NoSugarException, NoWaterExcpetion, NoCreamerException {
+		checkSelectedFlavor();
 		if(hasEnoughMoney()) {
-			
+			mixer.dispense(selected, addSugar, addCreamer);
 			cashbox.consume(price);
+			reset();
 		}
 		else {
 			int balance = getPrice(selected) - cashbox.getCredit();
 			throw new NotEnoughMoneyException("Please enter " + balance + " pesos more");
 		}
 	
+	}
+
+	private void checkSelectedFlavor() throws NoSelectedFlavorException {
+		if(selected.equals(""))
+			throw new NoSelectedFlavorException("Please select a flavor");
 	}
 	
 	/**
@@ -125,6 +146,12 @@ public class FrontPanel {
 	 */
 	public int getPrice(String flavor) {
 		return menu.get(flavor);
+	}
+	
+	public void reset() {
+		selected = "";
+		price = 0;
+		addSugar = addCreamer = false;
 	}
 	
 }
