@@ -23,7 +23,7 @@ public class InsertCoinListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		try {
-			String input = JOptionPane.showInputDialog("Enter amount to be inserted");
+			String input = JOptionPane.showInputDialog(parent, "Enter amount to be inserted");
 			int amount = Integer.parseInt(input);
 			cb.insert(amount);
 			ta.append(amount + " pesos inserted\n");

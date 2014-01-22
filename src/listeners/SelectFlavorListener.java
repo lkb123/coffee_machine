@@ -20,7 +20,6 @@ import javax.swing.JTextArea;
 
 import controller.FrontPanel;
 import controller.Mixer;
-import enums.ActionTaken;
 import exceptions.FlavorNotAvailableException;
 import exceptions.NoCreamerException;
 import exceptions.NoCupException;
@@ -76,10 +75,10 @@ public class SelectFlavorListener implements ActionListener {
 		String[] items = new String[fp.getMenu().size() + 1];
 		int i = 0;
 		for(Entry<String, Integer> entry : fp.getMenu().entrySet()) {
-			String item = entry.getKey() + " - " + entry.getValue();
+			String item = entry.getKey();
 			items[i++] = item;
 		}
-		items[i] = "---";
+		items[i] = "";
 		return items;
 	}
 	
@@ -130,7 +129,8 @@ public class SelectFlavorListener implements ActionListener {
 					if(sugar)
 						fp.checkAddSugar();
 					fp.serve();
-					ta.append("Done serving. Thank you!");
+					ta.append("Done serving. Thank you!\n");
+					d.dispose();
 				} catch (NotEnoughMoneyException | NoSelectedFlavorException
 						| NoCupException | NoSugarException | NoWaterExcpetion
 						| NoCreamerException | FlavorNotAvailableException e1) {
