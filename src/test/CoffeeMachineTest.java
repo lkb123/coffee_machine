@@ -2,8 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.security.KeyException;
-
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -11,6 +10,8 @@ import controller.Cashbox;
 import controller.FrontPanel;
 import controller.Mixer;
 import exceptions.FlavorNotAvailableException;
+import exceptions.NoSelectedFlavorException;
+import exceptions.NotEnoughMoneyException;
 
 public class CoffeeMachineTest {
 	
@@ -24,7 +25,6 @@ public class CoffeeMachineTest {
 		m = new Mixer();
 		fp = new FrontPanel(c, m);
 		fp.addMenu("hot choco", new Integer(15));
-		fp.select("hot choco");
 	}
 	@Test
 	public void cashboxTest() {
@@ -44,22 +44,50 @@ public class CoffeeMachineTest {
 	}
 	
 	@Test
-	public void flavorNotAvailable() throws FlavorNotAvailableException {
+	public void flavorNotAvailable() {
 		try {
-			fp.select("bavarian coffe");
+			fp.select("bavarian coffee");
 			fail("The flavor selected is not available and must fail");
 		} catch(FlavorNotAvailableException e) {
-			assertEquals("The flavor selected is not available", e.getMessage());
+			assertEquals("The flavor bavarian coffee is not available", e.getMessage());
 		}
 	}
 	
 	@Test
-	public void notEnoughMoneyTest() {
-		
+	public void serveWithNotEnoughMoneyTest() throws FlavorNotAvailableException, NoSelectedFlavorException {
+		try {
+			fp.select("hot choco");
+			c.insert(5);
+			fp.serve();
+			fail("Not enough money inserted and must fail");
+		} catch (NotEnoughMoneyException e) {
+			assertEquals("Please enter 10 pesos more", e.getMessage());
+		}
 	}
 	
+	/*
 	@Test
-	public void enoughMoneyTest() {
-		
+	public void serveWithoutSelectingFlavorTest() throws NotEnoughMoneyException {
+		try {
+			fp.serve();
+			fail("Not yet selected any flavor and must fail");
+		} catch(NoSelectedFlavorException e) {
+			
+		}
+	}
+	*/
+	
+	@Test
+	public void serteWithEnoughMoney() throws FlavorNotAvailableException, NotEnoughMoneyException {
+		fp.select("coffee");
+		c.insert(40);
+		fp.serve();
+		assertEquals(5, c.getCredit());
+	}
+	
+	@After
+	public void cleanCashbox() {
+		c.change();
+		assertEquals(0, c.getCredit());
 	}
 }
