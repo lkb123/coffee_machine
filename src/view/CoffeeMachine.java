@@ -16,6 +16,7 @@ import controller.Dispenser;
 import controller.FrontPanel;
 import controller.Mixer;
 import listeners.ChangeListener;
+import listeners.FlavorsListener;
 import listeners.InsertCoinListener;
 import listeners.MaintenanceListener;
 import listeners.SelectFlavorListener;
@@ -77,30 +78,45 @@ public class CoffeeMachine {
 
 	private static void buildMenu(JFrame main) {
 		JMenuBar mbar = new JMenuBar();
-		JMenu menu = new JMenu("Maintenance");
-		JMenuItem cups, water, sugar, creamer;
+		JMenu maintenance, flavors;
+		JMenuItem cups, water, sugar, creamer, addFlavors, removeFlavors;
+		
+		maintenance = new JMenu("Maintenance");
 		
 		cups = new JMenuItem("Add cups");
 		cups.setActionCommand("add cups");
 		cups.addActionListener(new MaintenanceListener(main, dispenser, textArea));
-		menu.add(cups);
+		maintenance.add(cups);
 		
 		water = new JMenuItem("Add water");
 		water.setActionCommand("add water");
 		water.addActionListener(new MaintenanceListener(main, dispenser, textArea));
-		menu.add(water);
+		maintenance.add(water);
 		
 		sugar = new JMenuItem("Add sugar");
 		sugar.setActionCommand("add sugar");
 		sugar.addActionListener(new MaintenanceListener(main, dispenser, textArea));
-		menu.add(sugar);
+		maintenance.add(sugar);
 		
 		creamer = new JMenuItem("Add creamer");
 		creamer.setActionCommand("add creamer");
 		creamer.addActionListener(new MaintenanceListener(main, dispenser, textArea));
-		menu.add(creamer);
+		maintenance.add(creamer);
+	
+		flavors = new JMenu("Flavors");
 		
-		mbar.add(menu);
+		addFlavors = new JMenuItem("Add flavor");
+		addFlavors.setActionCommand("add flavor");
+		addFlavors.addActionListener(new FlavorsListener(main, frontPanel, textArea));
+		flavors.add(addFlavors);
+		
+		removeFlavors = new JMenuItem("Remove flavor");
+		removeFlavors.setActionCommand("remove flavor");
+		removeFlavors.addActionListener(new FlavorsListener(main, frontPanel, textArea));
+		flavors.add(removeFlavors);
+		
+		mbar.add(maintenance);
+		mbar.add(flavors);
 		main.setJMenuBar(mbar);
 	}
 }
