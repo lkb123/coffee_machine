@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -66,6 +67,7 @@ public class FlavorsListener implements ActionListener {
 		p = new JLabel("Price: \n");
 		price = new JTextField(20);
 		p.setLabelFor(price);
+		//xAlign += 4.5;
 		//price.setAlignmentX(xAlign);
 		form.add(p);
 		form.add(price);
@@ -89,11 +91,19 @@ public class FlavorsListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			if(arg0.getSource() == ok) {
-				String newFlavor = flavor.getText();
-				int newPrice = Integer.parseInt(price.getText());
-				fp.addMenu(newFlavor, newPrice);
-				ta.append(newFlavor + " added with and costs " + newPrice + "\n");
-				d.dispose();
+				if(flavor.getText().isEmpty() || price.getText().isEmpty())
+					try {
+						throw new Exception("Empty fields");
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(d, e.getMessage());
+					}
+				else {
+					String newFlavor = flavor.getText();
+					int newPrice = Integer.parseInt(price.getText());
+					fp.addMenu(newFlavor, newPrice);
+					ta.append(newFlavor + " added with and costs " + newPrice + "\n");
+					d.dispose();
+				}
 			}
 			else if(arg0.getSource() == cancel) {
 				d.dispose();

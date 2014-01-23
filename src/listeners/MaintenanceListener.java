@@ -51,6 +51,14 @@ public class MaintenanceListener implements ActionListener {
 	private int promptInput(String ingredient) {
 		String message = "How much " + ingredient + " to add";
 		String input = JOptionPane.showInputDialog(parent, message);
+		if(input.isEmpty())
+			try {
+				throw new Exception("Empty fields");
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				promptInput(ingredient);
+			}
+		
 		int add = Integer.parseInt(input);
 		return add;
 	}

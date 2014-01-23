@@ -9,7 +9,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 import controller.Cashbox;
 import controller.Dispenser;
@@ -48,13 +50,18 @@ public class CoffeeMachine {
 		main.setLocation(dim.width/2-main.getSize().width/2, dim.height/2-main.getSize().height/2);
 		
 		JPanel upperPanel = new JPanel();
+		upperPanel.setPreferredSize(new Dimension(372, 402));
 		JPanel lowerPanel = new JPanel();
 		textArea = new JTextArea();
-		textArea.setPreferredSize(new Dimension(370, 400));
-		textArea.setLineWrap(true);
+		textArea.setSize(new Dimension(370, 400));
+		textArea.setRows(21);
+		textArea.setAutoscrolls(true);
 		textArea.setEditable(false);
-		upperPanel.setPreferredSize(new Dimension(372, 402));
 		upperPanel.add(textArea);
+		
+		JScrollPane scroll = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setPreferredSize(new Dimension(350, 390));
+		upperPanel.add(scroll);
 		
 		buildMenu(main);
 		
