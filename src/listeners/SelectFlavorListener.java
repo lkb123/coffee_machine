@@ -104,11 +104,9 @@ public class SelectFlavorListener implements ActionListener {
 	
 	private void buildCheckBox(JPanel additionalPane) {
 		addSugar = new JCheckBox("Add sugar");
-		//addSugar.setActionCommand("add sugar");
 		addSugar.setSelected(false);
 		addSugar.addItemListener(new CheckBoxListener());
 		addCreamer = new JCheckBox("Add creamer");
-		//addCreamer.setActionCommand("add creamer");;
 		addCreamer.setSelected(false);
 		addCreamer.addItemListener(new CheckBoxListener());
 		

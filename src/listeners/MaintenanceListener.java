@@ -25,22 +25,22 @@ public class MaintenanceListener implements ActionListener {
 			if(arg0.getActionCommand().equals("add cups")) {
 				int add = promptInput("cups");
 				d.addCups(add);
-				ta.append(add + " cups added\n");
+				ta.append(add + " pcs of cups added\n");
 			}
 			else if(arg0.getActionCommand().equals("add water")) {
 				int add = promptInput("water");
 				d.addWater(add);
-				ta.append(add + " waters added\n");
+				ta.append(add + " ml of water added\n");
 			}
 			else if(arg0.getActionCommand().equals("add sugar")) {
 				int add = promptInput("sugar");
 				d.addSugar(add);
-				ta.append(add + " sugars added\n");
+				ta.append(add + " cups of sugar added\n");
 			}
 			else if(arg0.getActionCommand().equals("add creamer")) {
 				int add = promptInput("creamer");
 				d.addCreamer(add);
-				ta.append(add + " creamers added\n");
+				ta.append(add + " cups of creamer added\n");
 			}
 		} catch (Exception e) {
 			//triggered when cancel button is pressed.
